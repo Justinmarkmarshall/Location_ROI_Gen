@@ -11,7 +11,7 @@ using System.Diagnostics;
 
 namespace Location_ROI_Gen
 {
-    internal class Program
+    public class Program
     {
         static async Task Main(string[] args)
         {
@@ -31,6 +31,7 @@ namespace Location_ROI_Gen
                 .AddTransient<IStreetCheckerScraper, StreetCheckerScraper>()
                 .AddTransient<ISpreadSheetWriter, SpreadSheetWriter>()
                 .AddTransient<IStreetCheckerCalculator, StreetCheckerCalculator>()
+                .AddTransient<ILinkedInScraper, LinkedInScraper>()
                 .AddLogging()
                 .BuildServiceProvider();
 
@@ -39,33 +40,36 @@ namespace Location_ROI_Gen
             var ssWriter = serviceCollection.GetService<ISpreadSheetWriter>();
 
             #region City data generator
-            //List<Location> locations = new(); 
+            List<Location> locations = new();
 
-            //foreach (var key in RightMoveCodes.CityToCode.Keys)
-            //{
-            //    var rmSaleResults = await rmScraper.GetThreeBedPropertiesForSale(key);
-            //    var rmRentResults = await rmScraper.GetThreeBedPropertiesToRent(key);
+            var key = "Lancaster";
+                var rmSaleResults = await rmScraper.GetPropertiesForSaleForCity(key);
+                var rmRentResults = await rmScraper.GetPropertiesToRentForCity(key);
 
-            //    if (rmSaleResults.Count > 0 && rmRentResults.Count > 0)
-            //    {                    
-            //        var averageSalePrice = Calculator.CalculateAverage(rmSaleResults.Select(r => r.Price).ToList(), rmSaleResults.Count());
-            //        var averageRentPrice = Calculator.CalculateAverage(rmRentResults.Select(r => r.Price).ToList(), rmRentResults.Count());
+                if (rmSaleResults.Count > 0 && rmRentResults.Count > 0)
+                {
+                    var halfWay = (double)(rmSaleResults.Count / 2);
 
-            //        var location = new Location() { Name = key, Date = DateTime.UtcNow };
-            //        location.ThreeBedAverageSalePrice = averageSalePrice;
-            //        location.ThreeBedHouseAverageRentPrice = averageRentPrice;
+                    var medianSalePrice = rmSaleResults.OrderByDescending(r => r.Price).ToList()[(int)halfWay].Price;
 
-            //        var mortgageCost = MortgageCost.MortgageCostForHousePrice(averageSalePrice);
-            //        location.AveragePriceMortgage = mortgageCost;
+                    var averageSalePrice = RightMoveCalculator.CalculateAverage(rmSaleResults.Select(r => r.Price).ToList(), rmSaleResults.Count());
+                    var averageRentPrice = RightMoveCalculator.CalculateAverage(rmRentResults.Select(r => r.Price).ToList(), rmRentResults.Count());
 
-            //        var mortgageToRentDiffPc = Calculator.CalculateMortgageToRentDiffPc(mortgageCost, averageRentPrice);
-            //        location.MortgageToRent_DiffPc = mortgageToRentDiffPc;
+                    var location = new Location() { Name = key, Date = DateTime.UtcNow };
+                    location.ThreeBedAverageSalePrice = averageSalePrice;
+                    location.ThreeBedHouseAverageRentPrice = averageRentPrice;
 
-            //        location.MortgageToRent_DiffValue = averageRentPrice - mortgageCost;
+                    var mortgageCost = MortgageCost.MortgageCostForHousePrice(averageSalePrice);
+                    location.AveragePriceMortgage = mortgageCost;
 
-            //        locations.Add(location);
-            //    }                
-            //}
+                    var mortgageToRentDiffPc = RightMoveCalculator.CalculateMortgageToRentDiffPc(mortgageCost, averageRentPrice);
+                    location.MortgageToRent_DiffPc = mortgageToRentDiffPc;
+
+                    location.MortgageToRent_DiffValue = averageRentPrice - mortgageCost;
+
+                    locations.Add(location);
+                }
+            
 
             //await efWrapper.UpsertLocations(locations);
 
@@ -78,12 +82,25 @@ namespace Location_ROI_Gen
 
             #region postcode data generator
 
-            var streetChecker = serviceCollection.GetService<IStreetCheckerScraper>();
-            var stat = await streetChecker.GetPostcodeStatistics("ls121sl");
-            ssWriter.WriteToSpreadSheet(stat);
+            //var streetChecker = serviceCollection.GetService<IStreetCheckerScraper>();
+            //var stat = await streetChecker.GetPostcodeStatistics("ls121sl");
+            //ssWriter.WriteToSpreadSheet(stat);
 
 
             #endregion postcode data generator
+
+            #region linked in jobs generator
+
+            var linkedInScraper = serviceCollection.GetService<ILinkedInScraper>();
+            var result = linkedInScraper.GetDotNetDevPostingsForCity("Leeds");
+
+            #endregion linked in jobs generator
+
+            #region rightMovePropertyData
+
+
+            #endregion rightMovePropertyData
+            //var rmSaleResults = await rmScraper.GetThreeBedPropertiesForSale("Le
             //process properties by town
         }
     }

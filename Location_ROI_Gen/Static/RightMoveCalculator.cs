@@ -1,9 +1,10 @@
 ﻿namespace Location_ROI_Gen.Static
 {
-    public static class Calculator
+    public static class RightMoveCalculator
     {
         public static int CalculateAverage(List<int> prices, int numberOfPrices)
         {
+            if (prices.Count == 0) return 0;
             return prices.Sum() / numberOfPrices;
         }
 

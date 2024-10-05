@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Location_ROI_Gen.Models
 {
-    internal class House
+    public class House
     {
         public string Description { get; set; }
         public int Price { get; set; }

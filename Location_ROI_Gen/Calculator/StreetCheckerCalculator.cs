@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Location_ROI_Gen.Calculator
+﻿namespace Location_ROI_Gen.Calculator
 {
     public class StreetCheckerCalculator : IStreetCheckerCalculator
     {
