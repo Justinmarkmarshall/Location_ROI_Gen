@@ -1,0 +1,1 @@
+This is a console app which will provide return on investment data based on a postcode. It does this by comparing buy and rental prices to establish a BLT viability for a postcode, and then provides socio economic data for that postcode aswell
