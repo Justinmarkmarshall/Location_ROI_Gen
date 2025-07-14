@@ -18,12 +18,12 @@ namespace Location_ROI_Gen.Scrapers
 
         public async Task<string> GetPostcodeStatistics(string postcode)
         {
+            StringBuilder result = new StringBuilder();
+
             try
             {
                 string url = $"https://www.streetcheck.co.uk/postcode/{postcode}";
                 var document = await _angleSharpWrapper.GetSearchResults(url);
-
-                StringBuilder result = new StringBuilder();
                 result.Append(postcode + ",");
 
                 var infoPieces = document.GetElementsByClassName("info-piece");
@@ -40,7 +40,8 @@ namespace Location_ROI_Gen.Scrapers
             }
             catch (Exception ex)
             {
-                return "Error: " + ex.Message;
+                Console.WriteLine($" Something went wrong with {postcode}");
+                return result.ToString();
             }
         }
 

@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Location_ROI_Gen.Data
 {
-    internal class EFWrapper : IEFWrapper
+    public class EFWrapper : IEFWrapper
     {
         private readonly DataContext _context;
 

@@ -8,9 +8,9 @@ using System.Threading.Tasks;
 
 namespace Location_ROI_Gen.Static
 {
-    internal static class RightMoveMapper
+    public static class RightMoveMapper
     {
-        public static List<House> MapRM(this IHtmlCollection<IElement> searchResult, string location)
+        public static List<House> MapModernisedRM(this IHtmlCollection<IElement> searchResult, string location)
         {
             var houses = new List<House>();
 
@@ -35,7 +35,9 @@ namespace Location_ROI_Gen.Static
                             && !allINeed.ToLower().Contains("cash buyers only")
                             && !allINeed.ToLower().Contains("shared ownership")
                             && !allINeed.ToLower().Contains("55")
-                            && !allINeed.ToLower().Contains("share")) houses.Add(new House()
+                            && !allINeed.ToLower().Contains("share")
+                            && !allINeed.ToLower().Contains("in need of modernisation")) 
+                            houses.Add(new House()
                             {
                                 Price = sanitizedPrice,
                                 Link = $"https://www.rightmove.co.uk/properties/{aTags.Replace("prop", "")}#/?channel=RES_BUY",

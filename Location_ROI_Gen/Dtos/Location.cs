@@ -12,6 +12,13 @@ namespace Location_ROI_Gen.Dtos
         public int AveragePriceMortgage { get; set; }
         public int MortgageToRent_DiffPc { get; set; }
         public int MortgageToRent_DiffValue { get; set; }
-        public DateTime Date { get; set; } 
+        public DateTime Date { get; set; }
+        public int TwoBedAverageSalePrice { get; set; }
+        public int TwoBedMortgage { get; set; }
+        public int TwoBedAverageRentPrice { get; set; }
+        public int ThreeBedMortgage { get; set; }
+        public int ThreeBedAverageRentPrice { get; set; }
+
+        public int OneBedAverageRentPrice { get; set; }
     }
 }

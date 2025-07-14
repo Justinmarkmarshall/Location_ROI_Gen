@@ -2,10 +2,16 @@
 
 namespace Location_ROI_Gen.Scrapers
 {
-    internal interface IRightMoveScraper
+    public interface IRightMoveScraper
     {
-        Task<IList<House>> GetThreeBedPropertiesForSale(string key);
+        /// <summary>
+        /// rooms will be min and max to avoid duplicate data
+        /// </summary>
+        /// <param name="key"></param>
+        /// <param name="rooms"></param>
+        /// <returns></returns>
+        public Task<IList<House>> GetPropertiesForSaleForCity(string city, int rooms = 3);
 
-        Task<IList<House>> GetThreeBedPropertiesToRent(string key);
+        public Task<IList<House>> GetPropertiesToRentForCity(string city, int rooms = 3);
     }
 }
