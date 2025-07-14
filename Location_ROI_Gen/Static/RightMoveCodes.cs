@@ -33,7 +33,10 @@ namespace Location_ROI_Gen.Static
             { "Chesterfield", "5E315" },
             { "Bradford", "5E198" },
             { "Lancaster", "5E769" },
-            { "Preston", "5E1097" }
+            { "Preston", "5E1097" },
+            { "Morecambe", "5E955" },
+            { "Wakefield", "5E1386" }
+
         };
     }
 }
